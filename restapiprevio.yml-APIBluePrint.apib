@@ -1,0 +1,321 @@
+FORMAT: 1A
+HOST: https://api.previo.cz/rest
+
+# REST API
+Restful API
+
+## Authentication
+This API uses Basic Authentication for its authentication.
+
+# Group ExportDocuments
+
+## Document Export [/document/export{?filterText,filterFrom,filterTo,filterDateType,paid,invoiceType,exportFormat}]
+
+### exportDocuments [GET]
+Get exported documents
++ Parameters
+    + filterText (string, optional)
+
+        Filter document names
+
+    + filterFrom (string, required)
+
+        From filter
+
+    + filterTo (string, optional)
+
+        To filter
+
+    + filterDateType (enum[string], required)
+
+        Which date type to use for filtering the reservations
+
+        + Members
+            + `issueDate` 
+            + `paidDate` 
+            + `taxDate` 
+
+    + paid (array[string], optional)
+
+        Filter by payment status
+
+        + Members
+            + `paid` 
+            + `not-paid` 
+            + `partly` 
+
+    + invoiceType (array[string], optional)
+
+        Filter by document type
+
+        + Members
+            + `INV` 
+            + `COU` 
+            + `CRE` 
+            + `REC` 
+            + `PRI` 
+            + `ADV` 
+
+    + exportFormat (enum[string], required)
+
+        Export document format
+
+        + Members
+            + `money` 
+            + `pohoda` 
+            + `isdoc` 
+
+
++ Response 200 (application/json)
+
+        Exported document
+
+    + Attributes (exportDocumentsResponse)
+
+
+
++ Response 400 (application/json)
+
+        Wrong username/password combination
+
+    + Attributes (Error)
+
+
+
++ Response 500 (application/json)
+
+        Error occured
+
+    + Attributes (Error)
+
+
+
+
+
+# Group SearchPackages
+
+## Packages Search [/packages/search{?filterText,filterFrom,filterTo}]
+
+### searchPackages [GET]
+Search for available stay packages
++ Parameters
+    + filterText (string, optional)
+
+        Filter stay packages titles
+
+    + filterFrom (string, optional)
+
+        From filter
+
+    + filterTo (string, optional)
+
+        To filter
+
+
++ Response 200 (application/json)
+
+        Search results
+
+    + Attributes (searchPackagesResponse)
+
+
+
++ Response 400 (application/json)
+
+        Wrong username/password combination
+
+    + Attributes (Error)
+
+
+
++ Response 500 (application/json)
+
+        Error occured
+
+    + Attributes (Error)
+
+
+
+
+
+# Group Kind
+
+## Premise Kind [/premise/kind{?obtId}]
+
+### getKinds [GET]
+Get general list of premise kinds
++ Parameters
+    + obtId (number, required)
+
+        Object kind Id
+
+
++ Response 200 (application/json)
+
+        ObjectKind
+
+    + Attributes (array[ObjectKind])
+
+
+
++ Response 400 (application/json)
+
+        Wrong username/password combination
+
+    + Attributes (Error)
+
+
+
++ Response 500 (application/json)
+
+        Error occured
+
+    + Attributes (Error)
+
+
+
+
+
+# Group SearchServices
+
+## Services Search [/services/search{?filterText}]
+
+### searchServices [GET]
+Search for available services
++ Parameters
+    + filterText (string, optional)
+
+        Filter service names
+
+
++ Response 200 (application/json)
+
+        Search result
+
+    + Attributes (searchServicesResponse)
+
+
+
++ Response 400 (application/json)
+
+        Wrong username/password combination
+
+    + Attributes (Error)
+
+
+
++ Response 500 (application/json)
+
+        Error occured
+
+    + Attributes (Error)
+
+
+
+
+
+# Data Structures
+
+## Error (object)
+
+
+### Properties
++ `code` (number, required) 
++ `message` (string, required) 
+
+
+## ObjectKind (object)
+
+
+### Properties
++ `obkId` (number, optional) 
++ `name` (string, optional) 
++ `description` (string, optional) 
++ `galId` (object, optional) 
++ `obtId` (number, optional) 
++ `unitId` (number, optional) 
++ `hasCapacity` (boolean, optional) 
++ `capacity` (number, optional) 
++ `extraCapacity` (number, optional) 
++ `singleUse` (boolean, optional) 
++ `offerOnline` (boolean, optional) 
++ `order` (number, optional) 
++ `properties` (ObjectKindProperty, optional) 
++ `pckId` (number, optional) 
+
+
+## ObjectKindProperty (object)
+
+
+### Properties
++ `okpId` (number, optional) 
++ `value` (string, optional) 
++ `attribute` (ObjectKindPropertyAttribute, optional) 
+
+
+## ObjectKindPropertyAttribute (object)
+
+
+### Properties
++ `praId` (number, optional) 
++ `value` (string, optional) 
+
+
+## Package (object)
+
+
+### Properties
++ `pckId` (number, optional) 
++ `hogId` (number, optional) 
++ `pcuId` (number, optional) 
++ `vatType` (string, optional) 
++ `name` (string, optional) 
++ `description` (string, optional) 
++ `nights` (number, optional) 
++ `order` (number, optional) 
++ `galId` (number, optional) 
++ `asCheckbox` (boolean, optional) 
++ `segId` (number, optional) 
++ `pcgId` (number, optional) 
+
+
+## Service (object)
+
+
+### Properties
++ `styId` (number, optional) 
++ `name` (string, optional) 
++ `active` (boolean, optional) 
++ `nights` (string, optional) 
++ `order` (number, optional) 
++ `description` (number, optional) 
++ `lastEdited` (string, optional) 
++ `lastEditedBy` (string, optional) 
++ `hasTerms` (boolean, optional) 
+
+
+## exportDocumentsResponse (object)
+
+
+### Properties
++ `success` (boolean, optional) 
++ `document` (string, optional) - UTF-8 encoded document
+
+
+## searchPackagesResponse (object)
+
+
+### Properties
++ `success` (boolean, optional) 
++ `packages` (array[Package], optional) - Array of stay packages
++ `total` (number, optional) 
+
+
+## searchServicesResponse (object)
+
+
+### Properties
++ `success` (boolean, optional) 
++ `services` (array[Service], optional) - Array of services
++ `total` (number, optional) 
+
